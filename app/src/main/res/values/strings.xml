@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Lancheira</string>
+    <string name="food_image_desc">Imagem do alimento</string>
 </resources>

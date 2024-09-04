@@ -24,14 +24,17 @@ public class ReguladoresFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_reguladores, container, false);
         recyclerView = view.findViewById(R.id.recycler_view_reguladores);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         // Exemplo de lista de alimentos Reguladores
         List<FoodItem> foodItems = new ArrayList<>();
         foodItems.add(new FoodItem("Maçã", R.drawable.apple));
         foodItems.add(new FoodItem("Banana", R.drawable.banana));
         foodItems.add(new FoodItem("Alface", R.drawable.lettuce));
+
         adapter = new FoodItemAdapter(foodItems, foodItem -> {
             // Ação ao clicar no item
         });
+
         recyclerView.setAdapter(adapter);
         return view;
     }

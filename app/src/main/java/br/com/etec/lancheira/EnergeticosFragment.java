@@ -24,14 +24,17 @@ public class EnergeticosFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_energeticos, container, false);
         recyclerView = view.findViewById(R.id.recycler_view_energeticos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         // Exemplo de lista de alimentos Energéticos
         List<FoodItem> foodItems = new ArrayList<>();
         foodItems.add(new FoodItem("Pão", R.drawable.bread));
         foodItems.add(new FoodItem("Biscoito", R.drawable.cookie));
         foodItems.add(new FoodItem("Arroz", R.drawable.rice));
+
         adapter = new FoodItemAdapter(foodItems, foodItem -> {
             // Ação ao clicar no item
         });
+
         recyclerView.setAdapter(adapter);
         return view;
     }
