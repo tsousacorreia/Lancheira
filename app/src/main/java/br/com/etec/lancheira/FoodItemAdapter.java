@@ -11,29 +11,34 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodItemViewHolder> {
+public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodViewHolder> {
+
     private final List<FoodItem> foodItemList;
-    private final OnItemClickListener listener;
+    private final List<FoodItem> selectedItems;
 
-    public interface OnItemClickListener {
-        void onItemClick(FoodItem item);
-    }
-
-    public FoodItemAdapter(List<FoodItem> foodItemList, OnItemClickListener listener) {
+    public FoodItemAdapter(List<FoodItem> foodItemList, List<FoodItem> selectedItems) {
         this.foodItemList = foodItemList;
-        this.listener = listener;
+        this.selectedItems = selectedItems;
     }
 
     @NonNull
     @Override
-    public FoodItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_food_layout, parent, false);
-        return new FoodItemViewHolder(view);
+    public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_item_layout, parent, false);
+        return new FoodViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FoodItemViewHolder holder, int position) {
-        holder.bind(foodItemList.get(position), listener);
+    public void onBindViewHolder(@NonNull FoodViewHolder holder, int position) {
+        FoodItem foodItem = foodItemList.get(position);
+        holder.foodName.setText(foodItem.getName());
+        holder.foodImage.setImageResource(foodItem.getImageResource());
+
+        holder.itemView.setOnClickListener(v -> {
+            if (!selectedItems.contains(foodItem)) {
+                selectedItems.add(foodItem);
+            }
+        });
     }
 
     @Override
@@ -41,20 +46,15 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.FoodIt
         return foodItemList.size();
     }
 
-    static class FoodItemViewHolder extends RecyclerView.ViewHolder {
-        private final TextView foodName;
-        private final ImageView foodImage;
+    public static class FoodViewHolder extends RecyclerView.ViewHolder {
 
-        public FoodItemViewHolder(@NonNull View itemView) {
+        TextView foodName;
+        ImageView foodImage;
+
+        public FoodViewHolder(@NonNull View itemView) {
             super(itemView);
             foodName = itemView.findViewById(R.id.food_name);
             foodImage = itemView.findViewById(R.id.food_image);
-        }
-
-        public void bind(final FoodItem item, final OnItemClickListener listener) {
-            foodName.setText(item.getName());
-            foodImage.setImageResource(item.getImageResourceId());
-            itemView.setOnClickListener(v -> listener.onItemClick(item));
         }
     }
 }
