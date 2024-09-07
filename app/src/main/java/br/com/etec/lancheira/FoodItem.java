@@ -5,8 +5,8 @@ import android.os.Parcelable;
 
 public class FoodItem implements Parcelable {
 
-    private String name;
-    private int imageResource;
+    private final String name;
+    private final int imageResource;
 
     public FoodItem(String name, int imageResource) {
         this.name = name;

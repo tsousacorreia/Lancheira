@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 public class Lancheira implements Parcelable {
 
-    private ArrayList<FoodItem> construtores;
-    private ArrayList<FoodItem> reguladores;
-    private ArrayList<FoodItem> energeticos;
-    private String dataLancheira;
+    private final ArrayList<FoodItem> construtores;
+    private final ArrayList<FoodItem> reguladores;
+    private final ArrayList<FoodItem> energeticos;
+    private final String dataLancheira;
 
     public Lancheira(ArrayList<FoodItem> construtores, ArrayList<FoodItem> reguladores, ArrayList<FoodItem> energeticos, String dataLancheira) {
         this.construtores = construtores;
