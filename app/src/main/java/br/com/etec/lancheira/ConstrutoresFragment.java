@@ -29,6 +29,7 @@ public class ConstrutoresFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_construtores);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
+        // Lista de alimentos Construtores
         foodItems = new ArrayList<>();
         foodItems.add(new FoodItem("Iogurte", R.drawable.yogurt));
         foodItems.add(new FoodItem("Carne", R.drawable.meat));

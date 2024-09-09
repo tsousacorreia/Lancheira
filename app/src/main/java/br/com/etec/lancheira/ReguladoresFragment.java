@@ -29,10 +29,11 @@ public class ReguladoresFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_reguladores);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        foodItems = new ArrayList<>();
-        foodItems.add(new FoodItem("Iogurte", R.drawable.yogurt));
-        foodItems.add(new FoodItem("Carne", R.drawable.meat));
-        foodItems.add(new FoodItem("Queijo", R.drawable.cheese));
+        // Lista de alimentos Reguladores
+        List<FoodItem> foodItems = new ArrayList<>();
+        foodItems.add(new FoodItem("Maçã", R.drawable.apple));
+        foodItems.add(new FoodItem("Banana", R.drawable.banana));
+        foodItems.add(new FoodItem("Alface", R.drawable.lettuce));
 
         FoodItemAdapter adapter = new FoodItemAdapter(foodItems, selectedItems);
         recyclerView.setAdapter(adapter);

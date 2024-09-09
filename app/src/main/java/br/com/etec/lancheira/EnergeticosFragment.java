@@ -26,10 +26,11 @@ public class EnergeticosFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_energeticos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        foodItems = new ArrayList<>();
-        foodItems.add(new FoodItem("Iogurte", R.drawable.yogurt));
-        foodItems.add(new FoodItem("Carne", R.drawable.meat));
-        foodItems.add(new FoodItem("Queijo", R.drawable.cheese));
+        // Lista de alimentos Energéticos
+        List<FoodItem> foodItems = new ArrayList<>();
+        foodItems.add(new FoodItem("Pão", R.drawable.bread));
+        foodItems.add(new FoodItem("Biscoito", R.drawable.cookie));
+        foodItems.add(new FoodItem("Arroz", R.drawable.rice));
 
         FoodItemAdapter adapter = new FoodItemAdapter(foodItems, selectedItems);
         recyclerView.setAdapter(adapter);
