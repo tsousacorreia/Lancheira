@@ -2,6 +2,8 @@ package br.com.etec.lancheira;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,23 +19,21 @@ import java.util.List;
 
 public class ConstrutoresFragment extends Fragment {
 
-    private RecyclerView recyclerView;
     private FoodItemAdapter adapter;
     private FoodItemViewModel foodItemViewModel;
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_construtores, container, false);
 
-        recyclerView = view.findViewById(R.id.recycler_view_construtores);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_construtores);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        foodItemViewModel = new ViewModelProvider(requireActivity()).get(FoodItemViewModel.class);
 
         adapter = new FoodItemAdapter(new ArrayList<>(), foodItemViewModel);
         recyclerView.setAdapter(adapter);
 
+        foodItemViewModel = new ViewModelProvider(requireActivity()).get(FoodItemViewModel.class);
         foodItemViewModel.getConstrutores().observe(getViewLifecycleOwner(), new Observer<List<FoodItem>>() {
             @Override
             public void onChanged(List<FoodItem> foodItems) {

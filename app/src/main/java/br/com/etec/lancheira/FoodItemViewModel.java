@@ -1,41 +1,39 @@
 package br.com.etec.lancheira;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FoodItemViewModel extends ViewModel {
+public class FoodItemViewModel extends AndroidViewModel {
 
     private FoodItemRepository repository;
-    private MutableLiveData<List<FoodItem>> construtores;
-    private MutableLiveData<List<FoodItem>> reguladores;
-    private MutableLiveData<List<FoodItem>> energeticos;
+    private LiveData<List<FoodItem>> construtores;
+    private LiveData<List<FoodItem>> reguladores;
+    private LiveData<List<FoodItem>> energeticos;
 
-    public FoodItemViewModel() {
-        repository = new FoodItemRepository();
+    public FoodItemViewModel(@NonNull Application application) {
+        super(application);
+        repository = new FoodItemRepository(application);
+        construtores = repository.getConstrutores();
+        reguladores = repository.getReguladores();
+        energeticos = repository.getEnergeticos();
     }
 
     public LiveData<List<FoodItem>> getConstrutores() {
-        if (construtores == null) {
-            construtores = repository.getConstrutores();
-        }
         return construtores;
     }
 
     public LiveData<List<FoodItem>> getReguladores() {
-        if (reguladores == null) {
-            reguladores = repository.getReguladores();
-        }
         return reguladores;
     }
 
     public LiveData<List<FoodItem>> getEnergeticos() {
-        if (energeticos == null) {
-            energeticos = repository.getEnergeticos();
-        }
         return energeticos;
     }
 

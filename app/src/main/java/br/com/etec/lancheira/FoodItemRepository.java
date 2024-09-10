@@ -1,5 +1,8 @@
 package br.com.etec.lancheira;
 
+import android.app.Application;
+
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import retrofit2.Call;
@@ -11,62 +14,61 @@ import java.util.List;
 public class FoodItemRepository {
 
     private ApiService apiService;
+    private MutableLiveData<List<FoodItem>> allFoodItems;
 
-    public FoodItemRepository() {
+    public FoodItemRepository(Application application) {
         apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        allFoodItems = new MutableLiveData<>();
     }
 
-    public MutableLiveData<List<FoodItem>> getConstrutores() {
-        MutableLiveData<List<FoodItem>> data = new MutableLiveData<>();
-        apiService.getConstrutores().enqueue(new Callback<List<FoodItem>>() {
+    public LiveData<List<FoodItem>> getConstrutores() {
+        apiService.getConstrutores("getConstrutores").enqueue(new Callback<List<FoodItem>>() {
             @Override
             public void onResponse(Call<List<FoodItem>> call, Response<List<FoodItem>> response) {
-                if (response.isSuccessful()) {
-                    data.setValue(response.body());
+                if (response.isSuccessful() && response.body() != null) {
+                    allFoodItems.setValue(response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<List<FoodItem>> call, Throwable t) {
-                data.setValue(null);
+                // Handle failure
             }
         });
-        return data;
+        return allFoodItems;
     }
 
-    public MutableLiveData<List<FoodItem>> getReguladores() {
-        MutableLiveData<List<FoodItem>> data = new MutableLiveData<>();
-        apiService.getReguladores().enqueue(new Callback<List<FoodItem>>() {
+    public LiveData<List<FoodItem>> getReguladores() {
+        apiService.getReguladores("getReguladores").enqueue(new Callback<List<FoodItem>>() {
             @Override
             public void onResponse(Call<List<FoodItem>> call, Response<List<FoodItem>> response) {
-                if (response.isSuccessful()) {
-                    data.setValue(response.body());
+                if (response.isSuccessful() && response.body() != null) {
+                    allFoodItems.setValue(response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<List<FoodItem>> call, Throwable t) {
-                data.setValue(null);
+                // Handle failure
             }
         });
-        return data;
+        return allFoodItems;
     }
 
-    public MutableLiveData<List<FoodItem>> getEnergeticos() {
-        MutableLiveData<List<FoodItem>> data = new MutableLiveData<>();
-        apiService.getEnergeticos().enqueue(new Callback<List<FoodItem>>() {
+    public LiveData<List<FoodItem>> getEnergeticos() {
+        apiService.getEnergeticos("getEnergeticos").enqueue(new Callback<List<FoodItem>>() {
             @Override
             public void onResponse(Call<List<FoodItem>> call, Response<List<FoodItem>> response) {
-                if (response.isSuccessful()) {
-                    data.setValue(response.body());
+                if (response.isSuccessful() && response.body() != null) {
+                    allFoodItems.setValue(response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<List<FoodItem>> call, Throwable t) {
-                data.setValue(null);
+                // Handle failure
             }
         });
-        return data;
+        return allFoodItems;
     }
 }
