@@ -1,51 +1,47 @@
 package br.com.etec.lancheira;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ViewPager2 viewPager;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        bottomNav.setOnItemSelectedListener(navListener);
+        // Inicializa o ViewPager e TabLayout
+        viewPager = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tab_layout);
 
-        // Definir HomeFragment como padrão
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-        }
+        // Configura o AlimentosPagerAdapter e o ViewPager
+        AlimentosPagerAdapter adapter = new AlimentosPagerAdapter(this);
+        viewPager.setAdapter(adapter);
+
+        // Liga o TabLayout com o ViewPager usando TabLayoutMediator
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            switch (position) {
+                case 0:
+                    tab.setText("Construtores");
+                    break;
+                case 1:
+                    tab.setText("Reguladores");
+                    break;
+                case 2:
+                    tab.setText("Energéticos");
+                    break;
+                case 3:
+                    tab.setText("Montar Lancheira");
+                    break;
+            }
+        }).attach();
     }
-
-    private final BottomNavigationView.OnItemSelectedListener navListener =
-            new BottomNavigationView.OnItemSelectedListener() {
-                @SuppressLint("NonConstantResourceId")
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment = null;
-
-                    int itemId = item.getItemId();
-
-                    if (itemId == R.id.nav_home) {
-                        selectedFragment = new HomeFragment();
-                    } else if (itemId == R.id.nav_montar_lancheira) {
-                        selectedFragment = new MontarLancheiraFragment();
-                    }
-
-                    if (selectedFragment != null) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
-                    }
-
-                    return true;
-                }
-            };
 }

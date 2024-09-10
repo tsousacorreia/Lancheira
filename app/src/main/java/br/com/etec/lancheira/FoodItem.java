@@ -1,51 +1,43 @@
 package br.com.etec.lancheira;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+public class FoodItem {
 
-public class FoodItem implements Parcelable {
+    private int id;
+    private String nome;
+    private String categoria;
+    private String imagemUrl; // Se você tiver URLs de imagem dos alimentos
 
-    private final String name;
-    private final int imageResource;
+    // Getters e Setters
 
-    public FoodItem(String name, int imageResource) {
-        this.name = name;
-        this.imageResource = imageResource;
+    public int getId() {
+        return id;
     }
 
-    protected FoodItem(Parcel in) {
-        name = in.readString();
-        imageResource = in.readInt();
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public static final Creator<FoodItem> CREATOR = new Creator<FoodItem>() {
-        @Override
-        public FoodItem createFromParcel(Parcel in) {
-            return new FoodItem(in);
-        }
-
-        @Override
-        public FoodItem[] newArray(int size) {
-            return new FoodItem[size];
-        }
-    };
-
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public int getImageResource() {
-        return imageResource;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getCategoria() {
+        return categoria;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeInt(imageResource);
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getImagemUrl() {
+        return imagemUrl;
+    }
+
+    public void setImagemUrl(String imagemUrl) {
+        this.imagemUrl = imagemUrl;
     }
 }
