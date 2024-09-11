@@ -5,8 +5,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
+    private static final String BASE_URL = "http://seu-servidor/";  // Substitua pelo seu IP/URL
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://seu-servidor/api/";
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
@@ -16,5 +16,9 @@ public class RetrofitClient {
                     .build();
         }
         return retrofit;
+    }
+
+    public static ApiService getApiService() {
+        return getRetrofitInstance().create(ApiService.class);
     }
 }

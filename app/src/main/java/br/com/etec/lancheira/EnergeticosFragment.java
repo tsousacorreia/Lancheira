@@ -27,13 +27,16 @@ public class EnergeticosFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_energeticos, container, false);
 
+        // Inicializando o ViewModel antes de usá-lo no adapter
+        foodItemViewModel = new ViewModelProvider(requireActivity()).get(FoodItemViewModel.class);
+
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_energeticos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // Inicializando o adapter depois de inicializar o ViewModel
         adapter = new FoodItemAdapter(new ArrayList<>(), foodItemViewModel);
         recyclerView.setAdapter(adapter);
 
-        foodItemViewModel = new ViewModelProvider(requireActivity()).get(FoodItemViewModel.class);
         foodItemViewModel.getEnergeticos().observe(getViewLifecycleOwner(), new Observer<List<FoodItem>>() {
             @Override
             public void onChanged(List<FoodItem> foodItems) {

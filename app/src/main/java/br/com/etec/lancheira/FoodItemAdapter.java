@@ -3,9 +3,14 @@ package br.com.etec.lancheira;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -31,8 +36,10 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
         FoodItem foodItem = foodItemList.get(position);
         holder.bind(foodItem);
 
-        holder.itemView.setOnClickListener(v -> {
-            foodItemViewModel.selectItem(foodItem);
+        // Adicionar funcionalidade para quando o botão "Adicionar" for clicado
+        holder.addButton.setOnClickListener(v -> {
+            // Aqui você pode definir o que acontece quando o botão "Adicionar" for clicado
+            foodItemViewModel.selectItem(foodItem);  // Exemplo: adicionar o item selecionado à lancheira
         });
     }
 
@@ -49,12 +56,30 @@ public class FoodItemAdapter extends RecyclerView.Adapter<FoodItemAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        private final TextView foodName;
+        private final TextView foodDescription;
+        private final ImageView foodImage;
+        private final Button addButton;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            foodName = itemView.findViewById(R.id.text_food_name);
+            foodDescription = itemView.findViewById(R.id.text_food_description);
+            foodImage = itemView.findViewById(R.id.image_food);
+            addButton = itemView.findViewById(R.id.button_add_food);
         }
 
         public void bind(FoodItem foodItem) {
-            // Implementar binding de dados para os itens de alimentos
+            // Definir o nome e a descrição
+            foodName.setText(foodItem.getNome());
+            foodDescription.setText(foodItem.getDescricao());
+
+            // Carregar a imagem do alimento usando Glide
+            Glide.with(itemView.getContext())
+                    .load(foodItem.getImagemUrl())  // URL da imagem do alimento
+                    .placeholder(R.drawable.placeholder_image)  // Imagem de placeholder
+                    .error(R.drawable.error_image)  // Imagem em caso de erro
+                    .into(foodImage);  // Carregar a imagem na ImageView
         }
     }
 }

@@ -1,19 +1,20 @@
 package br.com.etec.lancheira;
 
+import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
-
-import java.util.List;
 
 public interface ApiService {
 
-    @GET("Api.php")
-    Call<List<FoodItem>> getConstrutores(@Query("apicall") String apicall);
+    // Construtores
+    @GET("api/Api.php?apicall=getConstrutores")
+    Call<ApiResponse<List<FoodItem>>> getConstrutores();
 
-    @GET("Api.php")
-    Call<List<FoodItem>> getReguladores(@Query("apicall") String apicall);
+    // Reguladores
+    @GET("api/Api.php?apicall=getReguladores")
+    Call<ApiResponse<List<FoodItem>>> getReguladores();
 
-    @GET("Api.php")
-    Call<List<FoodItem>> getEnergeticos(@Query("apicall") String apicall);
+    // Energéticos
+    @GET("api/Api.php?apicall=getEnergeticos")
+    Call<ApiResponse<List<FoodItem>>> getEnergeticos();
 }
