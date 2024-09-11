@@ -21,7 +21,6 @@ public class MontarLancheiraFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private FoodItemAdapter adapter;
-    private ArrayList<FoodItem> selectedItems;
     private FoodItemViewModel foodItemViewModel;
 
     @Override
@@ -29,25 +28,29 @@ public class MontarLancheiraFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_montar_lancheira, container, false);
 
+        // Inicializar o ViewModel antes de usar
+        foodItemViewModel = new ViewModelProvider(requireActivity()).get(FoodItemViewModel.class);
+
         recyclerView = view.findViewById(R.id.recycler_view_lancheira);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        selectedItems = new ArrayList<>();
+        // Inicializar o adapter com o ViewModel
         adapter = new FoodItemAdapter(new ArrayList<>(), foodItemViewModel);
         recyclerView.setAdapter(adapter);
 
-        foodItemViewModel = new ViewModelProvider(requireActivity()).get(FoodItemViewModel.class);
-
+        // Observar as mudanças na lista de itens selecionados
         foodItemViewModel.getSelectedItems().observe(getViewLifecycleOwner(), new Observer<List<FoodItem>>() {
             @Override
             public void onChanged(List<FoodItem> foodItems) {
+                // Atualiza o adaptador quando os itens selecionados mudam
                 adapter.updateFoodItems(foodItems);
             }
         });
 
         Button buttonFinalizar = view.findViewById(R.id.button_finalizar);
         buttonFinalizar.setOnClickListener(v -> {
-            if (!selectedItems.isEmpty()) {
+            List<FoodItem> selectedItems = foodItemViewModel.getSelectedItems().getValue();
+            if (selectedItems != null && !selectedItems.isEmpty()) {
                 Toast.makeText(getContext(), "Lancheira montada com sucesso!", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContext(), "Selecione ao menos um alimento para a lancheira", Toast.LENGTH_SHORT).show();

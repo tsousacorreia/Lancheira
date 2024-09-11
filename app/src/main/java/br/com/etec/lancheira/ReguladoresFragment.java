@@ -37,10 +37,16 @@ public class ReguladoresFragment extends Fragment {
         adapter = new FoodItemAdapter(new ArrayList<>(), foodItemViewModel);
         recyclerView.setAdapter(adapter);
 
-        foodItemViewModel.getReguladores().observe(getViewLifecycleOwner(), new Observer<List<FoodItem>>() {
+        // Observa as mudanças na lista de construtores
+        foodItemViewModel.getReguladores().observe(getViewLifecycleOwner(), new Observer<ApiResponse<List<FoodItem>>>() {
             @Override
-            public void onChanged(List<FoodItem> foodItems) {
-                adapter.updateFoodItems(foodItems);
+            public void onChanged(ApiResponse<List<FoodItem>> response) {
+                if (response != null && response.getData() != null) {
+                    adapter.updateFoodItems(response.getData());
+                } else {
+                    // Pode mostrar uma mensagem de erro ou lidar com o caso de erro aqui
+                    // Exemplo: Log.e("ConstrutoresFragment", "Falha ao carregar construtores");
+                }
             }
         });
 

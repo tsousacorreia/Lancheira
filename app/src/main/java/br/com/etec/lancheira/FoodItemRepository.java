@@ -14,61 +14,68 @@ import java.util.List;
 public class FoodItemRepository {
 
     private ApiService apiService;
-    private MutableLiveData<List<FoodItem>> allFoodItems;
+    private MutableLiveData<ApiResponse<List<FoodItem>>> construtores;
+    private MutableLiveData<ApiResponse<List<FoodItem>>> reguladores;
+    private MutableLiveData<ApiResponse<List<FoodItem>>> energeticos;
 
     public FoodItemRepository(Application application) {
-        apiService = RetrofitClient.getApiService();
-        allFoodItems = new MutableLiveData<>();
+        apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        construtores = new MutableLiveData<>();
+        reguladores = new MutableLiveData<>();
+        energeticos = new MutableLiveData<>();
     }
 
-    public LiveData<List<FoodItem>> getConstrutores() {
+    public LiveData<ApiResponse<List<FoodItem>>> getConstrutores() {
         apiService.getConstrutores().enqueue(new Callback<ApiResponse<List<FoodItem>>>() {
             @Override
             public void onResponse(Call<ApiResponse<List<FoodItem>>> call, Response<ApiResponse<List<FoodItem>>> response) {
-                if (response.isSuccessful() && response.body() != null && !response.body().isError()) {
-                    allFoodItems.setValue(response.body().getData());
+                if (response.isSuccessful() && response.body() != null) {
+                    construtores.setValue(response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse<List<FoodItem>>> call, Throwable t) {
-                // Handle failure
+                // Handle failure case here
+                construtores.setValue(null);  // You can choose how to handle errors
             }
         });
-        return allFoodItems;
+        return construtores;
     }
 
-    public LiveData<List<FoodItem>> getReguladores() {
+    public LiveData<ApiResponse<List<FoodItem>>> getReguladores() {
         apiService.getReguladores().enqueue(new Callback<ApiResponse<List<FoodItem>>>() {
             @Override
             public void onResponse(Call<ApiResponse<List<FoodItem>>> call, Response<ApiResponse<List<FoodItem>>> response) {
-                if (response.isSuccessful() && response.body() != null && !response.body().isError()) {
-                    allFoodItems.setValue(response.body().getData());
+                if (response.isSuccessful() && response.body() != null) {
+                    reguladores.setValue(response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse<List<FoodItem>>> call, Throwable t) {
-                // Handle failure
+                // Handle failure case here
+                reguladores.setValue(null);  // Handle errors as needed
             }
         });
-        return allFoodItems;
+        return reguladores;
     }
 
-    public LiveData<List<FoodItem>> getEnergeticos() {
+    public LiveData<ApiResponse<List<FoodItem>>> getEnergeticos() {
         apiService.getEnergeticos().enqueue(new Callback<ApiResponse<List<FoodItem>>>() {
             @Override
             public void onResponse(Call<ApiResponse<List<FoodItem>>> call, Response<ApiResponse<List<FoodItem>>> response) {
-                if (response.isSuccessful() && response.body() != null && !response.body().isError()) {
-                    allFoodItems.setValue(response.body().getData());
+                if (response.isSuccessful() && response.body() != null) {
+                    energeticos.setValue(response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse<List<FoodItem>>> call, Throwable t) {
-                // Handle failure
+                // Handle failure case here
+                energeticos.setValue(null);  // Handle errors appropriately
             }
         });
-        return allFoodItems;
+        return energeticos;
     }
 }
